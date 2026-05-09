@@ -1,0 +1,370 @@
+/* ===== Game Scene ===== */
+.game-scene {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a1628, #1a3a5c, #0d253f);
+  color: #fff;
+  font-family: "Segoe UI", "Comic Sans MS", cursive, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+/* ===== Header ===== */
+.game-header {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.btn-home {
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+.btn-home:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.game-title {
+  font-size: 1.4rem;
+  margin: 0;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.game-progress {
+  background: rgba(255, 255, 255, 0.12);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ===== Score Bar ===== */
+.score-bar {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.score-label {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.progress-track {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4fc3f7, #1565c0);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+/* ===== Photo Card ===== */
+.photo-container {
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 1.2rem;
+}
+
+.photo-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, #1a3a5c, #0d253f);
+}
+
+.photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  background: linear-gradient(135deg, #1a3a5c, #0d253f);
+}
+
+.photo-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.photo-overlay.correct {
+  background: rgba(46, 204, 113, 0.75);
+}
+.photo-overlay.wrong {
+  background: rgba(231, 76, 60, 0.75);
+}
+
+.overlay-icon {
+  font-size: 3rem;
+  margin-bottom: 0.3rem;
+}
+
+.overlay-text {
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.photo-hint {
+  text-align: center;
+  margin: 0.6rem 0 0;
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* ===== Choices Grid ===== */
+.choices-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 1rem;
+}
+
+.choice-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.choice-btn:hover:not(.correct):not(.wrong):not(.faded) {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.choice-btn.correct {
+  background: rgba(46, 204, 113, 0.35);
+  border-color: #2ecc71;
+  animation: pop 0.3s ease;
+}
+
+.choice-btn.wrong {
+  background: rgba(231, 76, 60, 0.35);
+  border-color: #e74c3c;
+  animation: shake 0.4s ease;
+}
+
+.choice-btn.faded {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.choice-emoji {
+  font-size: 1.3rem;
+}
+
+.choice-label {
+  font-weight: 600;
+}
+
+/* ===== Next Button ===== */
+.btn-next {
+  background: linear-gradient(135deg, #42a5f5, #1565c0);
+  border: none;
+  color: #fff;
+  padding: 0.8rem 2.5rem;
+  border-radius: 999px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(21, 101, 192, 0.5);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  animation: fadeIn 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+.btn-next:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 24px rgba(21, 101, 192, 0.6);
+}
+
+/* ===== Game Over ===== */
+.game-over-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+  margin-top: 3rem;
+  animation: fadeIn 0.5s ease;
+  backdrop-filter: blur(12px);
+}
+
+.game-over-emoji {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+}
+
+.game-over-title {
+  font-size: 2rem;
+  margin: 0 0 0.5rem;
+}
+
+.game-over-score {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0.5rem 0 1rem;
+}
+
+.score-highlight {
+  color: #64b5f6;
+  font-weight: 800;
+  font-size: 1.3rem;
+}
+
+.game-over-bar {
+  width: 100%;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.game-over-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4fc3f7, #42a5f5, #1565c0);
+  border-radius: 6px;
+  transition: width 1s ease;
+}
+
+.game-over-pct {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0 0 1.5rem;
+}
+
+.game-over-actions {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-play,
+.btn-back {
+  border: none;
+  padding: 0.7rem 1.8rem;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-play {
+  background: linear-gradient(135deg, #42a5f5, #1565c0);
+  color: #fff;
+}
+
+.btn-back {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+}
+
+.btn-play:hover,
+.btn-back:hover {
+  transform: scale(1.05);
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+  .game-title {
+    font-size: 1.1rem;
+  }
+  .choices-grid {
+    gap: 0.5rem;
+  }
+  .choice-btn {
+    padding: 0.6rem 0.7rem;
+    font-size: 0.9rem;
+  }
+}

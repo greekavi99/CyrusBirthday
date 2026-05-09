@@ -1,0 +1,528 @@
+/* ===== Scene & Layout ===== */
+.birthday-scene {
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    #0a1628 0%,
+    #1a3a5c 30%,
+    #2980b9 60%,
+    #6dd5fa 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 8s ease infinite;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Segoe UI", "Comic Sans MS", cursive, sans-serif;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ===== Layers ===== */
+.stars-layer,
+.confetti-layer,
+.balloon-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.confetti-layer {
+  z-index: 3;
+}
+.balloon-layer {
+  z-index: 2;
+}
+
+/* ===== Content ===== */
+.content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 2rem 1rem;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.content.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ===== Banner ===== */
+.banner {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.banner-flag {
+  font-size: 2rem;
+  animation: swing 2s ease-in-out infinite;
+  display: inline-block;
+}
+
+.banner-flag:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.banner-flag:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.banner-flag:nth-child(4) {
+  animation-delay: 0.6s;
+}
+.banner-flag:nth-child(5) {
+  animation-delay: 0.8s;
+}
+
+@keyframes swing {
+  0%,
+  100% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
+/* ===== Title ===== */
+.title {
+  color: white;
+  text-shadow:
+    3px 3px 6px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(255, 255, 255, 0.3);
+  margin: 0;
+  line-height: 1.1;
+}
+
+.title-line {
+  display: block;
+  font-size: 3rem;
+  animation: colorCycle 3s ease-in-out infinite;
+}
+
+.big-one {
+  display: block;
+  font-size: 8rem;
+  font-weight: 900;
+  animation:
+    pulse 1.5s ease-in-out infinite,
+    rainbow 4s linear infinite;
+  background: linear-gradient(
+    45deg,
+    #6dd5fa,
+    #ffffff,
+    #4fc3f7,
+    #90caf9,
+    #6dd5fa
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(3px 3px 4px rgba(0, 0, 0, 0.3));
+}
+
+.big-one sup {
+  font-size: 2.5rem;
+  -webkit-text-fill-color: white;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes rainbow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 300% 50%;
+  }
+}
+
+@keyframes colorCycle {
+  0%,
+  100% {
+    color: #fff;
+  }
+  33% {
+    color: #90caf9;
+  }
+  66% {
+    color: #b3e5fc;
+  }
+}
+
+/* ===== Cake ===== */
+.cake-section {
+  margin: 1.5rem auto;
+  opacity: 0;
+  transform: translateY(30px) scale(0.5);
+  transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cake-section.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.cake-container {
+  animation: cakeFloat 3s ease-in-out infinite;
+}
+
+@keyframes cakeFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.flame {
+  animation: flicker 0.3s ease-in-out infinite alternate;
+  transform-origin: center bottom;
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 1;
+    transform: scaleY(1) scaleX(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scaleY(1.1) scaleX(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(0.9) scaleX(1.1);
+  }
+}
+
+.cake-dot {
+  animation: dotPop 1.5s ease-in-out infinite;
+}
+
+@keyframes dotPop {
+  0%,
+  100% {
+    r: 4;
+  }
+  50% {
+    r: 6;
+  }
+}
+
+/* ===== Party Animals ===== */
+.party-animals {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin: 1.5rem 0;
+}
+
+.party-animal {
+  display: inline-block;
+  animation: animalBounce 0.6s ease-in-out infinite alternate;
+  cursor: default;
+  transition: transform 0.2s;
+}
+
+.party-animal:hover {
+  transform: scale(1.5) rotate(10deg) !important;
+}
+
+@keyframes animalBounce {
+  0% {
+    transform: translateY(0) rotate(-5deg);
+  }
+  100% {
+    transform: translateY(-15px) rotate(5deg);
+  }
+}
+
+/* ===== Message ===== */
+.message {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease;
+}
+
+.message.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.wishes {
+  color: white;
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  line-height: 1.6;
+}
+
+.age-badge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  justify-content: center;
+  margin: 1rem auto;
+  animation: badgeSpin 6s linear infinite;
+}
+
+.age-number {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #64b5f6;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  line-height: 1;
+}
+
+.age-text {
+  font-size: 0.7rem;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.age-today {
+  font-size: 0.9rem;
+  color: #64b5f6;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+@keyframes badgeSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* ===== Hearts ===== */
+.footer-hearts {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.heart {
+  font-size: 1.5rem;
+  display: inline-block;
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.3);
+  }
+  30% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.2);
+  }
+}
+
+/* ===== Balloons ===== */
+.balloon-wrapper {
+  animation: floatUp 5s ease-in infinite;
+  opacity: 0;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 0;
+    transform: translateY(0) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-110vh) rotate(15deg);
+  }
+}
+
+/* ===== Confetti ===== */
+.confetti-piece {
+  animation: confettiFall 4s linear infinite;
+  opacity: 0;
+}
+
+@keyframes confettiFall {
+  0% {
+    opacity: 0;
+    transform: translateY(0) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(110vh) rotate(720deg);
+  }
+}
+
+/* ===== Stars ===== */
+.star {
+  animation: twinkle 2s ease-in-out infinite alternate;
+  opacity: 0.3;
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0.2;
+    transform: scale(0.8) rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.3) rotate(20deg);
+  }
+}
+
+/* ===== Child Name ===== */
+.child-name {
+  font-size: 2.8rem;
+  color: #90caf9;
+  text-shadow:
+    2px 2px 8px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(100, 181, 246, 0.5);
+  margin: 0.3rem 0 0.5rem;
+  letter-spacing: 3px;
+  animation: nameGlow 2s ease-in-out infinite alternate;
+  font-family: "Segoe UI", "Comic Sans MS", cursive, sans-serif;
+}
+
+@keyframes nameGlow {
+  0% {
+    text-shadow:
+      2px 2px 8px rgba(0, 0, 0, 0.4),
+      0 0 20px rgba(100, 181, 246, 0.3);
+  }
+  100% {
+    text-shadow:
+      2px 2px 8px rgba(0, 0, 0, 0.4),
+      0 0 40px rgba(100, 181, 246, 0.7),
+      0 0 60px rgba(66, 165, 245, 0.5);
+  }
+}
+
+/* ===== Blow Hint ===== */
+.blow-hint {
+  color: white;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.85;
+  animation: hintPulse 2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* ===== Smoke ===== */
+.smoke {
+  animation: smokeRise 2s ease-out forwards;
+}
+
+.smoke-1 {
+  animation-delay: 0s;
+}
+.smoke-2 {
+  animation-delay: 0.3s;
+}
+.smoke-3 {
+  animation-delay: 0.5s;
+}
+
+@keyframes smokeRise {
+  0% {
+    opacity: 0.6;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-25px) scale(2.5);
+  }
+}
+
+/* ===== Play Game Button ===== */
+.play-game-btn {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.9rem 2rem;
+  background: linear-gradient(135deg, #42a5f5, #1565c0);
+  border: none;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(21, 101, 192, 0.5);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  animation: hintPulse 2.5s ease-in-out infinite;
+}
+
+.play-game-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 28px rgba(21, 101, 192, 0.65);
+}
