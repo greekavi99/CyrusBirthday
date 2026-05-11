@@ -103,6 +103,21 @@ export default function Birthday() {
           📸 Play "Guess the Month" Game!
         </button>
 
+        {/* Play the Puzzle Game */}
+        <button className="play-game-btn" onClick={() => navigate("/puzzle")}> 
+          🧩 Piece Together Family Photos!
+        </button>
+
+        {/* Play the Pac-Man-style Game */}
+        <button className="play-game-btn" onClick={() => navigate("/pacman")}>
+          🟡 Play Family Pac-Run!
+        </button>
+
+        {/* View the Score Board */}
+        <button className="play-game-btn" onClick={() => navigate("/scores")}>
+          🏆 View Game Score Table
+        </button>
+
         {/* Footer */}
         <div className="footer-hearts">
           {"❤️🧡💛💚💙💜"

@@ -1,0 +1,87 @@
+.scoreboard-scene {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a1628, #1a3a5c);
+  color: #fff;
+  font-family: "Segoe UI", "Comic Sans MS", cursive, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.scoreboard-header {
+  width: 100%;
+  max-width: 980px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.scoreboard-title {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.scoreboard-subtitle {
+  margin: 0.3rem 0 0;
+  opacity: 0.8;
+}
+
+.scoreboard-info {
+  width: 100%;
+  max-width: 980px;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.scoreboard-table-wrapper {
+  width: 100%;
+  max-width: 980px;
+  overflow-x: auto;
+}
+
+.scoreboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.scoreboard-table th,
+.scoreboard-table td {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.9rem 1rem;
+  text-align: left;
+}
+
+.scoreboard-table th {
+  background: rgba(255, 255, 255, 0.1);
+  font-weight: 700;
+}
+
+.scoreboard-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.scoreboard-empty {
+  text-align: center;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.btn-home {
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-home:hover {
+  background: rgba(255, 255, 255, 0.25);
+}

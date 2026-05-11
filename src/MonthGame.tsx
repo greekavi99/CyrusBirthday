@@ -1,5 +1,6 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { createScoreEntry, saveScore } from "./scoreStorage";
 import "./MonthGame.css";
 
 const TOTAL_MONTHS = 12;
@@ -69,6 +70,9 @@ export default function MonthGame() {
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [started, setStarted] = useState(false);
+  const [playerName, setPlayerName] = useState("");
+  const [scoreSaved, setScoreSaved] = useState(false);
 
   const current = cards[currentIndex];
 
@@ -111,7 +115,57 @@ export default function MonthGame() {
     setShowResult(false);
     setIsCorrect(false);
     setGameOver(false);
+    setStarted(false);
+    setPlayerName("");
+    setScoreSaved(false);
   }, []);
+
+  useEffect(() => {
+    if (!gameOver || scoreSaved || !started) return;
+    const name = playerName.trim() || "Guest";
+    saveScore(
+      createScoreEntry(
+        name,
+        "Guess the Month",
+        score,
+        12,
+        `${answered} / 12 correct`,
+      ),
+    );
+    setScoreSaved(true);
+  }, [gameOver, scoreSaved, started, playerName, score, answered]);
+
+  if (!started) {
+    return (
+      <div className="game-scene">
+        <div className="start-card">
+          <div className="game-over-emoji">🎉</div>
+          <h1 className="game-over-title">Ready to Play?</h1>
+          <p className="game-over-score">Enter your name to begin the month guessing game.</p>
+          <div className="score-save-section">
+            <input
+              className="score-input"
+              value={playerName}
+              onChange={(event) => setPlayerName(event.target.value)}
+              placeholder="Your name"
+            />
+            <button
+              className="btn-save"
+              disabled={!playerName.trim()}
+              onClick={() => setStarted(true)}
+            >
+              ▶ Start Game
+            </button>
+          </div>
+          <div className="game-over-actions">
+            <button className="btn-back" onClick={() => navigate("/")}>
+              🎂 Back to Birthday
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (gameOver) {
     const pct = Math.round((score / 12) * 100);
@@ -130,6 +184,9 @@ export default function MonthGame() {
             <div className="game-over-fill" style={{ width: `${pct}%` }} />
           </div>
           <p className="game-over-pct">{pct}%</p>
+          <p className="score-saved-message">
+            {scoreSaved ? "Score saved to the leaderboard!" : "Saving score..."}
+          </p>
           <div className="game-over-actions">
             <button className="btn-play" onClick={handleRestart}>
               🔄 Play Again

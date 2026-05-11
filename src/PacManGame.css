@@ -1,0 +1,244 @@
+.pacman-scene {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #0f395b, #081a2d);
+  color: #f0f8ff;
+  font-family: "Segoe UI", "Comic Sans MS", cursive, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.pacman-header {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.pacman-title {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.pacman-subtitle {
+  margin: 0.2rem 0 0;
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+.pacman-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+}
+
+.btn-home {
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-home:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.pacman-board-wrapper {
+  width: 100%;
+  max-width: 560px;
+}
+
+.pacman-board {
+  display: grid;
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  padding: 8px;
+  border-radius: 16px;
+}
+
+.board-cell {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.board-cell.wall {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.board-cell.dot {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.board-cell.empty {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.player-icon,
+.ghost-icon,
+.dot-icon {
+  font-size: 1rem;
+}
+
+.player-icon {
+  position: relative;
+  width: 80%;
+  height: 80%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.son-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.25);
+}
+
+.son-photo-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 0.9rem;
+}
+
+.pacman-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.pacman-controls button {
+  background: linear-gradient(135deg, #ffde59, #fbbf24);
+  border: none;
+  color: #111;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+.pacman-controls button:hover {
+  transform: scale(1.05);
+}
+
+.pacman-controls div {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.pacman-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 10;
+}
+
+.pacman-end-card {
+  background: rgba(16, 47, 79, 0.98);
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  border-radius: 24px;
+  padding: 2rem;
+  text-align: center;
+  width: min(90vw, 420px);
+}
+
+.pacman-end-card h2 {
+  margin: 0 0 0.8rem;
+  font-size: 2rem;
+}
+
+.pacman-end-card p {
+  margin: 0.6rem 0;
+}
+
+.pacman-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.score-save-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto 1rem;
+}
+
+.score-input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 1rem;
+}
+
+.score-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #84d7ff, #4facfe);
+  border: none;
+  color: #fff;
+  padding: 0.85rem 1.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.score-saved-message {
+  color: #b2dfff;
+  font-size: 0.95rem;
+}
+
+.pacman-actions button {
+  background: linear-gradient(135deg, #4fc3f7, #1565c0);
+  border: none;
+  color: #fff;
+  padding: 0.8rem 1.4rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform 0.2s;
+}
+
+.pacman-actions button:hover {
+  transform: scale(1.03);
+}
