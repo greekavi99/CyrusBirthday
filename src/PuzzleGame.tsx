@@ -1,5 +1,4 @@
-import { useState, useMemo, useEffect, useCallback, useRef } from "react";
-import type * as React from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { createScoreEntry, saveScore } from "./scoreStorage";
 import "./PuzzleGame.css";
@@ -13,12 +12,6 @@ interface Piece {
   row: number;
   col: number;
   placed: boolean;
-}
-
-interface TouchPiece {
-  piece: Piece;
-  startX: number;
-  startY: number;
 }
 
 function generatePuzzlePieces(photoId: number): Piece[] {
@@ -50,15 +43,13 @@ export default function PuzzleGame() {
   const [pieces, setPieces] = useState<Piece[]>(() =>
     generatePuzzlePieces(Math.floor(Math.random() * TOTAL_PHOTOS) + 1)
   );
-  const [draggedPiece, setDraggedPiece] = useState<Piece | null>(null);
-  const [touchPiece, setTouchPiece] = useState<TouchPiece | null>(null);
+  const [selectedPiece, setSelectedPiece] = useState<Piece | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [showHint, setShowHint] = useState(false);
   const [started, setStarted] = useState(false);
   const [playerName, setPlayerName] = useState("");
   const [scoreSaved, setScoreSaved] = useState(false);
-  const gridRef = useRef<HTMLDivElement | null>(null);
 
   const placedPieces = useMemo(
     () => pieces.filter((p) => p.placed).length,
@@ -86,97 +77,33 @@ export default function PuzzleGame() {
     }
   }, [isComplete, gameOver]);
 
-  const handlePieceDragStart = useCallback(
+  // Click handler for pieces
+  const handlePieceClick = useCallback(
     (piece: Piece) => {
       if (piece.placed || gameOver) return;
-      setDraggedPiece(piece);
+      setSelectedPiece(selectedPiece?.id === piece.id ? null : piece);
     },
-    [gameOver]
+    [selectedPiece, gameOver]
   );
 
-  const handlePieceDragEnd = useCallback(() => {
-    setDraggedPiece(null);
-  }, []);
-
-  const handleGridDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-  }, []);
-
-  const handleGridDragLeave = useCallback(() => {
-    return;
-  }, []);
-
-  const handleGridDrop = useCallback(
-    (row: number, col: number, e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (!draggedPiece || gameOver) return;
+  // Click handler for slots
+  const handleSlotClick = useCallback(
+    (row: number, col: number) => {
+      if (!selectedPiece || gameOver) return;
 
       // Check if this position should have this piece
-      const isCorrect = draggedPiece.row === row && draggedPiece.col === col;
+      const isCorrect = selectedPiece.row === row && selectedPiece.col === col;
 
       if (isCorrect) {
         setPieces((prev) =>
           prev.map((p) =>
-            p.id === draggedPiece.id ? { ...p, placed: true } : p
+            p.id === selectedPiece.id ? { ...p, placed: true } : p
           )
         );
+        setSelectedPiece(null);
       }
-
-      setDraggedPiece(null);
     },
-    [draggedPiece, gameOver]
-  );
-
-  // Touch handlers for mobile support
-  const handlePieceTouchStart = useCallback(
-    (piece: Piece, e: React.TouchEvent<HTMLDivElement>) => {
-      if (piece.placed || gameOver) return;
-      const touch = e.touches[0];
-      setTouchPiece({
-        piece,
-        startX: touch.clientX,
-        startY: touch.clientY,
-      });
-    },
-    [gameOver]
-  );
-
-  const handlePieceTouchEnd = useCallback(
-    (e: React.TouchEvent<HTMLDivElement>) => {
-      if (!touchPiece || !gridRef.current) {
-        setTouchPiece(null);
-        return;
-      }
-
-      const touch = e.changedTouches[0];
-      const element = document.elementFromPoint(touch.clientX, touch.clientY);
-
-      if (element?.classList.contains("puzzle-slot")) {
-        const slotIndex = Array.from(
-          gridRef.current.querySelectorAll(".puzzle-slot")
-        ).indexOf(element as HTMLElement);
-
-        if (slotIndex !== -1) {
-          const row = Math.floor(slotIndex / 4);
-          const col = slotIndex % 4;
-          const isCorrect = touchPiece.piece.row === row && touchPiece.piece.col === col;
-
-          if (isCorrect) {
-            setPieces((prev) =>
-              prev.map((p) =>
-                p.id === touchPiece.piece.id ? { ...p, placed: true } : p
-              )
-            );
-          }
-        }
-      }
-
-      setTouchPiece(null);
-    },
-    [touchPiece]
+    [selectedPiece, gameOver]
   );
 
   const handleHint = useCallback(() => {
@@ -189,8 +116,7 @@ export default function PuzzleGame() {
     const newPhotoId = Math.floor(Math.random() * TOTAL_PHOTOS) + 1;
     setPhotoId(newPhotoId);
     setPieces(generatePuzzlePieces(newPhotoId));
-    setDraggedPiece(null);
-    setTouchPiece(null);
+    setSelectedPiece(null);
     setGameOver(false);
     setTimeElapsed(0);
     setShowHint(false);
@@ -319,7 +245,6 @@ export default function PuzzleGame() {
         <div className="puzzle-main">
           <div
             className="puzzle-grid"
-            ref={gridRef}
             style={{
               backgroundImage: showHint
                 ? `url(/photos/family-photo-${photoId}.jpg)`
@@ -337,9 +262,7 @@ export default function PuzzleGame() {
                 <div
                   key={index}
                   className={`puzzle-slot ${piece ? "filled" : ""}`}
-                  onDragOver={handleGridDragOver}
-                  onDragLeave={handleGridDragLeave}
-                  onDrop={(e) => handleGridDrop(row, col, e)}
+                  onClick={() => handleSlotClick(row, col)}
                   style={{
                     backgroundImage: piece
                       ? `url(/photos/family-photo-${photoId}.jpg)`
@@ -367,17 +290,12 @@ export default function PuzzleGame() {
           <h3 className="pieces-title">Available Pieces</h3>
           <div className="puzzle-pieces">
             {unplacedPieces.map((piece) => {
-              const isDragging = draggedPiece?.id === piece.id;
-              const isTouching = touchPiece?.piece.id === piece.id;
+              const isSelected = selectedPiece?.id === piece.id;
               return (
                 <div
                   key={piece.id}
-                  className={`puzzle-piece ${isDragging ? "dragging" : ""} ${isTouching ? "touching" : ""}`}
-                  draggable
-                  onDragStart={() => handlePieceDragStart(piece)}
-                  onDragEnd={handlePieceDragEnd}
-                  onTouchStart={(e) => handlePieceTouchStart(piece, e)}
-                  onTouchEnd={handlePieceTouchEnd}
+                  className={`puzzle-piece ${isSelected ? "selected" : ""}`}
+                  onClick={() => handlePieceClick(piece)}
                   style={{
                     backgroundImage: `url(/photos/family-photo-${photoId}.jpg)`,
                     backgroundPosition: `${piece.col * 25}% ${
